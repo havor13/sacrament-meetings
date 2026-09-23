@@ -1,32 +1,31 @@
 // components/MeetingCard.tsx
 import Link from 'next/link';
-import { SacramentMeeting } from '@/lib/types';
+import type { SacramentMeeting } from '@/lib/types';
+import { MEETING_TYPE_LABELS, formatMeetingDate } from '@/lib/format';
 
-interface MeetingCardProps {
-  meeting: SacramentMeeting;
-}
+export function MeetingCard({ meeting }: { meeting: SacramentMeeting }) {
+  const speakerNames = meeting.speakers
+    .filter((s) => s.type === 'speaker')
+    .map((s) => s.name);
 
-export default function MeetingCard({ meeting }: MeetingCardProps) {
   return (
-    <div className="border rounded-lg p-4 shadow hover:shadow-md transition">
-      <h2 className="text-xl font-semibold">
-        {meeting.date} — {meeting.meetingType?.toUpperCase() || 'Meeting'}
+    <article className="mb-4 rounded border border-gray-300 p-4">
+      <h2 className="text-lg font-semibold">
+        <Link
+          href={`/meetings/${meeting.id}`}
+          className="text-blue-800 hover:underline focus:outline-2 focus:outline-blue-600"
+        >
+          {formatMeetingDate(meeting.date)}
+        </Link>
       </h2>
-      <p className="text-sm text-gray-600">
-        Presiding: {meeting.presiding} | Conducting: {meeting.conducting}
-      </p>
-      <p className="mt-2 text-gray-700">
-        Opening Hymn: {meeting.openingHymn.number} — {meeting.openingHymn.title}
-      </p>
-      <p className="text-gray-700">Closing Hymn: {meeting.closingHymn.title}</p>
-
-      <Link
-        href={`/meetings/${meeting.id}`}
-        aria-label={`View details for meeting on ${meeting.date}`}
-        className="mt-3 inline-block text-blue-600 hover:underline"
-      >
-        View Details
-      </Link>
-    </div>
+      <p className="text-gray-800">{MEETING_TYPE_LABELS[meeting.meetingType]}</p>
+      <p className="text-gray-800">Presiding: {meeting.presiding}</p>
+      {meeting.conducting && (
+        <p className="text-gray-800">Conducting: {meeting.conducting}</p>
+      )}
+      {speakerNames.length > 0 && (
+        <p className="text-gray-800">Speakers: {speakerNames.join(', ')}</p>
+      )}
+    </article>
   );
 }

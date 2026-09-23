@@ -1,7 +1,8 @@
-export type MeetingType = 'testimony' | 'regular' | 'stake' | 'general';
+// lib/types.ts
+export type MeetingType = 'testimony' | 'regular' | 'stake' | 'general' | 'special';
 
 export interface Hymn {
-  number: number;
+  number: number | null; // null for stake/general meetings with no hymns
   title: string;
 }
 
@@ -17,11 +18,11 @@ export interface WardBusinessItem {
 
 export interface SacramentMeeting {
   id: number;
-  date: string; // ISO date string
+  date: string; // ISO date string (YYYY-MM-DD)
   meetingType: MeetingType;
   presiding: string;
   conducting: string;
-  announcements: string[]; // ✅ always an array
+  announcements: string[]; // always an array
   openingHymn: Hymn;
   openingPrayer: string;
   wardBusiness: WardBusinessItem[];
