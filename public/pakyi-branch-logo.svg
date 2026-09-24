@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+  <rect width="400" height="200" fill="#0b1d3a"/>
+  <g fill="none" stroke="#00bcd4" stroke-width="4">
+    <path d="M60 100 L40 80 L60 60" />
+    <path d="M340 100 L360 80 L340 60" />
+  </g>
+  <circle cx="200" cy="70" r="40" fill="#fdd835"/>
+  <rect x="140" y="90" width="120" height="60" fill="#fff" rx="4"/>
+  <text x="200" y="115" font-size="20" text-anchor="middle" fill="#0b1d3a" font-family="serif">✝︎  🍷 🍞</text>
+  <path d="M160 160 L200 130 L240 160" stroke="#fbc02d" stroke-width="3" fill="none"/>
+  <text x="200" y="180" font-size="22" text-anchor="middle" fill="#fff" font-family="Georgia">PAKYI BRANCH</text>
+  <text x="200" y="195" font-size="14" text-anchor="middle" fill="#00bcd4" font-family="Arial">SACRAMENT MEETING</text>
+</svg>

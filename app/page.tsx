@@ -6,17 +6,17 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 via-indigo-200 to-purple-200 dark:from-gray-900 dark:via-gray-800 dark:to-black">
       <main className="flex flex-col items-center justify-center w-full max-w-3xl py-20 px-8 text-center sm:text-left bg-white dark:bg-gray-900 rounded-xl shadow-lg">
         <Image
-          src="/planner-logo.svg"
-          alt="Sacrament Meeting Planner Logo"
-          width={120}
-          height={40}
+          src="/pakyi-branch-logo.svg"
+          alt="Pakyi Branch Sacrament Meeting Logo"
+          width={140}
+          height={60}
           priority
         />
         <h1 className="mt-8 text-4xl font-bold text-black dark:text-zinc-50">
-          Sacrament Meeting Planner
+          Pakyi Branch Sacrament Meeting Planner
         </h1>
         <p className="mt-4 max-w-md text-lg text-zinc-700 dark:text-zinc-400">
-          Plan, manage, and review sacrament meeting agendas. View current and past programs, announcements, hymns, and speakers.
+          Plan, manage, and review sacrament meeting agendas for the Pakyi Branch. View current and past programs, announcements, hymns, and speakers.
         </p>
 
         <div className="mt-8 flex flex-col gap-4 sm:flex-row">
