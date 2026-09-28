@@ -7,7 +7,16 @@ const links = [
   { href: '/', label: 'Home' },
   { href: '/meetings', label: 'Meetings' },
   { href: '/meetings/current', label: 'Current Sunday' },
+  { href: '/meetings/new', label: 'New Meeting' },
 ];
+
+function isLinkActive(pathname: string, href: string) {
+  // "Meetings" stays active on /meetings and on detail/edit pages like /meetings/5
+  if (href === '/meetings') {
+    return pathname === '/meetings' || /^\/meetings\/\d+/.test(pathname);
+  }
+  return pathname === href;
+}
 
 export default function NavLinks() {
   const pathname = usePathname();
@@ -15,7 +24,7 @@ export default function NavLinks() {
   return (
     <nav className="flex gap-4" aria-label="Primary navigation">
       {links.map((link) => {
-        const isActive = pathname === link.href;
+        const isActive = isLinkActive(pathname, link.href);
         return (
           <Link
             key={link.href}
