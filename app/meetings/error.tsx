@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 
 export default function MeetingsError({
@@ -9,6 +10,10 @@ export default function MeetingsError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
+
   return (
     <div className="p-6 max-w-md mx-auto text-center" role="alert" aria-live="polite">
       <h1 className="text-xl font-bold mb-2">Something went wrong</h1>

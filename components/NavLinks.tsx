@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { href: '/', label: 'Home' },
-  { href: '/meetings', label: 'Meetings' },
-  { href: '/meetings/current', label: 'Current Sunday' },
-  { href: '/meetings/new', label: 'New Meeting' },
+  { href: '/', label: 'Home', adminOnly: false },
+  { href: '/meetings', label: 'Meetings', adminOnly: false },
+  { href: '/meetings/current', label: 'Current Sunday', adminOnly: false },
+  { href: '/meetings/new', label: 'New Meeting', adminOnly: true },
 ];
 
 function isLinkActive(pathname: string, href: string) {
@@ -18,12 +18,13 @@ function isLinkActive(pathname: string, href: string) {
   return pathname === href;
 }
 
-export default function NavLinks() {
+export default function NavLinks({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   const pathname = usePathname();
+  const visibleLinks = links.filter((link) => !link.adminOnly || isLoggedIn);
 
   return (
     <nav className="flex gap-4" aria-label="Primary navigation">
-      {links.map((link) => {
+      {visibleLinks.map((link) => {
         const isActive = isLinkActive(pathname, link.href);
         return (
           <Link

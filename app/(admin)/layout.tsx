@@ -1,5 +1,12 @@
 // app/(admin)/layout.tsx
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  // Authentication is scaffolded in Week 05
+import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
+
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
+  if (!session?.user) {
+    redirect('/login');
+  }
+
   return <div>{children}</div>;
 }

@@ -1,8 +1,14 @@
 // app/(public)/meetings/page.tsx
+import type { Metadata } from 'next';
 import { getMeetings, getMeetingsTotalPages } from '@/lib/meetings-db';
 import { MeetingSearch } from '@/components/MeetingSearch';
 import { MeetingCard } from '@/components/MeetingCard';
 import { Pagination } from '@/components/Pagination';
+
+export const metadata: Metadata = {
+  title: 'Meetings',
+  description: 'Browse and search the Pakyi Branch sacrament meeting schedule.',
+};
 
 export default async function MeetingsPage(props: {
   searchParams?: Promise<{ query?: string; page?: string }>;

@@ -3,12 +3,56 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { AuthError } from 'next-auth';
+import { auth, signIn } from '@/auth';
 import {
   addMeeting,
   updateMeeting as updateMeetingDb,
   deleteMeeting as deleteMeetingDb,
 } from './meetings-db';
 import type { MeetingFormState } from './meeting-form-state';
+
+// ---------- Auth helpers ----------
+
+/**
+ * Server-side guard. The proxy only protects pages, so every mutation
+ * must verify the session itself. Unauthenticated callers are sent to /login.
+ */
+async function requireSession() {
+  const session = await auth();
+  if (!session?.user) {
+    redirect('/login');
+  }
+  return session;
+}
+
+/**
+ * Sign-in action used by the login form (useActionState).
+ * Returns an error message string on failure; on success signIn redirects.
+ */
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData
+): Promise<string | undefined> {
+  try {
+    await signIn('credentials', {
+      email: formData.get('email'),
+      password: formData.get('password'),
+      redirectTo: '/meetings',
+    });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid email or password.';
+        default:
+          return 'Something went wrong. Please try again.';
+      }
+    }
+    // Re-throw so Next.js can handle the redirect after a successful sign-in
+    throw error;
+  }
+}
 
 // ---------- Zod schema ----------
 
@@ -87,12 +131,14 @@ function parseMeetingFormData(formData: FormData) {
   };
 }
 
-// ---------- Server Actions ----------
+// ---------- Server Actions (protected) ----------
 
 export async function createMeeting(
   prevState: MeetingFormState,
   formData: FormData
 ): Promise<MeetingFormState> {
+  await requireSession();
+
   const parsed = MeetingFormSchema.safeParse(parseMeetingFormData(formData));
 
   if (!parsed.success) {
@@ -121,6 +167,8 @@ export async function updateMeeting(
   prevState: MeetingFormState,
   formData: FormData
 ): Promise<MeetingFormState> {
+  await requireSession();
+
   const parsed = MeetingFormSchema.safeParse(parseMeetingFormData(formData));
 
   if (!parsed.success) {
@@ -148,6 +196,8 @@ export async function updateMeeting(
 }
 
 export async function deleteMeeting(formData: FormData) {
+  await requireSession();
+
   const id = Number(formData.get('id'));
 
   try {
