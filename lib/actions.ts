@@ -5,6 +5,8 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { AuthError } from 'next-auth';
 import { auth, signIn } from '@/auth';
+import bcrypt from 'bcryptjs';
+import { createUser } from './users-db';
 import {
   addMeeting,
   updateMeeting as updateMeetingDb,

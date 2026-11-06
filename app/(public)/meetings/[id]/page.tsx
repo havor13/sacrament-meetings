@@ -1,6 +1,7 @@
 // app/(public)/meetings/[id]/page.tsx
 import { notFound } from 'next/navigation';
 import { getMeetingById } from '@/lib/meetings-db';
+import MeetingAdminLinks from '@/components/MeetingAdminLinks';
 import { MEETING_TYPE_LABELS, formatHymn, parseMeetingId } from '@/lib/format';
 
 export default async function MeetingDetailPage({
@@ -26,6 +27,7 @@ export default async function MeetingDetailPage({
     <article>
       <h1>{dateLabel}</h1>
       <p>{MEETING_TYPE_LABELS[meeting.meetingType]}</p>
+      <MeetingAdminLinks id={meeting.id} />
 
       <p>Presiding: {meeting.presiding}</p>
       {meeting.conducting && <p>Conducting: {meeting.conducting}</p>}
