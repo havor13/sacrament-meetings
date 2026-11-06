@@ -1,7 +1,7 @@
-// components/MeetingCard.tsx
 import Link from 'next/link';
 import type { SacramentMeeting } from '@/lib/types';
 import { MEETING_TYPE_LABELS, formatMeetingDate } from '@/lib/format';
+import MeetingAdminLinks from '@/components/MeetingAdminLinks';
 
 export function MeetingCard({ meeting }: { meeting: SacramentMeeting }) {
   const speakerNames = meeting.speakers
@@ -26,6 +26,7 @@ export function MeetingCard({ meeting }: { meeting: SacramentMeeting }) {
       {speakerNames.length > 0 && (
         <p className="text-gray-800">Speakers: {speakerNames.join(', ')}</p>
       )}
+      <MeetingAdminLinks id={meeting.id} />
     </article>
   );
 }
